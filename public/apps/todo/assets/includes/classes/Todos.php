@@ -14,9 +14,9 @@ class Todos {
 
         //the boolean will be decided if the current date is newer than the todo date it will be auto 1.
         if ($current_date > $todo_date) {
-            $is_done = 1;
+            $is_done = "yes";
         } else {
-            $is_done = 0;
+            $is_done = "no";
         }
 
         //we can connect to the database. Every todo will have a username field to be bound to account. the users will have unique todo table
@@ -159,13 +159,20 @@ class Todos {
             $current_todo_body = $row['todo_body'];
 
             //compare current values with new ones. If empty we add the old value.
-            if($todo_date == "" || $todo_date == $current_todo_date){
+            if($todo_date == ""){
                 $todo_date = $current_todo_date;
             }
-            if ($todo_body == "" || $todo_body == $current_todo_body) {
+            if ($todo_body == "") {
                 $todo_body = $current_todo_body;
             }
-            $sql = "UPDATE `todos` SET `todo_body`='$todo_body', `todo_date`='$todo_date' WHERE `id`='$id'";
+            $current_date = date("Y-m-d");
+            if($todo_date < $current_date){
+                $is_done = "yes";
+            } else {
+                $is_done = "no";
+            }
+
+            $sql = "UPDATE `todos` SET `todo_body`='$todo_body', `todo_date`='$todo_date', `is_done`='$is_done' WHERE `id`='$id'";
             if(mysqli_query($this->con, $sql)){
                 return true;
             } else {

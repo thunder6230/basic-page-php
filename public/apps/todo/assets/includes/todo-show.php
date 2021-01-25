@@ -60,14 +60,14 @@ require 'apps/todo/assets/handlers/edit-todo-handler.php';
     }
     const closeModal = () => {
         if (event.target.classList == "modal" ||
-            event.target.getAttribute("id") == "modal_close"){
-                 $('.modal').fadeOut()
-            }
-           
+            event.target.getAttribute("id") == "modal_close") {
+            $('.modal').fadeOut()
+        }
+
     }
     const deleteTodo = (id) => {
 
-
+        $('.modal').fadeOut()
         $.ajax({
             type: 'POST',
             url: 'apps/todo/assets/handlers/ajax-delete-todo.php',
@@ -79,6 +79,7 @@ require 'apps/todo/assets/handlers/edit-todo-handler.php';
                 }
             }
         });
+
     }
 
     const setTodoDoneUndone = (id) => {
