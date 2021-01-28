@@ -2,12 +2,14 @@
 
 require 'config/config.php';
 require 'includes/handlers/login-handler.php';
+require_once 'controller/login-form-config.php';
+require_once 'includes/classes/Input.php';
 
 //Here we check if the user came directly after registration. If yes we create variables from the saved session variables.
 $email = '';
 $message = '';
-if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
+if (isset($_SESSION['login_email'])) {
+    $email = $_SESSION['login_email'];
 }
 if (isset($_SESSION['message'])) {
     $message = $_SESSION['message'];
@@ -40,23 +42,13 @@ if (isset($_SESSION['message'])) {
                     <h4 class="mb-3">Login to continue</h4>
                     <form class="needs-validation" action="login.php" method="POST">
                         <div class="row g-3">
-                            <div class="col-12">
-                                <label for="log_email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="log_email" name="log_email" placeholder="you@example.com" 
-                                value="<?php
-                                if (isset($_SESSION['login_email'])){
-                                    echo $_SESSION['login_email'];
-                                } else if($email != ""){
-                                    echo $email;
-                                }?>" required>
-                                <div class="invalid-feedback">
-                                    <?php if ($msg != "") echo $msg ?>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <label for="log_password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="log_password" name="log_password" required>
-                            </div>
+                        <!-- render input fields from Input class with controller -->
+                            <?php 
+                                foreach($config as $input_config){
+                                    $input = new Input($input_config);
+                                    echo $input->render();
+                                }
+                            ?>
                         </div>
                         <button type="submit"  name="login_button" class="btn btn btn-outline-light fw-bold border-white mt-4 mb-2">Login</button>
                                 <br>

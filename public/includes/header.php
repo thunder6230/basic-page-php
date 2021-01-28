@@ -1,8 +1,11 @@
 <?php
 
-require 'config/config.php';
-require 'includes/classes/User.php';
-require 'includes/error-messages.php';
+require_once 'config/config.php';
+require_once 'includes/classes/User.php';
+require_once 'includes/error-messages.php';
+require_once 'includes/classes/Input.php';
+require_once 'includes/classes/Textarea.php';
+require_once 'includes/classes/Select.php';
 
 if (isset($_SESSION['userLoggedIn'])) {
     $userLoggedIn = $_SESSION['userLoggedIn'];
@@ -11,12 +14,8 @@ if (isset($_SESSION['userLoggedIn'])) {
 }
 
 $user = new User($con, $userLoggedIn);
-$isUserAdmin = $user->isAdmin();
 $user_data = $user->getUserData();
-$user_id = $user_data['id'];
-$user_email = $user_data['email'];
-$account_type = $user_data['role'];
-$profile_pic = $user_data['profile_pic'];
+
 if ($user->isUserBlocked()) {
     session_destroy();
 }
@@ -50,8 +49,8 @@ if ($user->isUserBlocked()) {
                     <a class="nav-link" href="my-apps.php">My Apps</a>
                     <a class="nav-link" href="contact.php
                     ">Contact</a>
-                    <a class="nav-link" href="profile.php"><img src="<?php echo $profile_pic ?>" class="avatar mini"> Profile</a>
-                    <?php if ($isUserAdmin) echo "<a class='nav-link' href='admin.php'>Admin</a>" ?>
+                    <a class="nav-link" href="profile.php"><img src="<?php echo $user_data['profile_pic']; ?>" class="avatar mini"> Profile</a>
+                    <?php if ($user->isAdmin()) echo "<a class='nav-link' href='admin.php'>Admin</a>" ?>
                     <a class="nav-link" href="includes/handlers/logout.php">Logout</a>
                 </nav>
             </div>

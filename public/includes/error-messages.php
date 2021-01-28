@@ -2,6 +2,9 @@
 $fname_error = "<span class='error'>First name must be between 2 and 25 characters!</span><br>";
 $lname_error = "<span class='error'>Last name must be between 2 and 25 characters!</span><br>";
 
+$name_error =
+"<span class='error'>Name can contain only letters!</span><br>";
+
 $email_error_format = "<span class='error'>Not valid email format</span><br>";
 $email_error_match = "<span class='error'>Emails don't match!</span><br>";
 $email_error_taken = "<span class='error'>Email is already in use!</span><br>";
@@ -29,4 +32,6 @@ $file_upload_extension_error = "<span class='error'>The file is not in supported
 $file_upload_unsuccessfull = "<span class='error'>The file has not been uploaded!</span><br>";
 $file_upload_successfull = "<span class='success'>The file has been uploaded!</span><br>";
 
+
+$email_sent ="<span class='success'>Email has been sent. We will anser in 48 hours!</span><br>";
 ?>

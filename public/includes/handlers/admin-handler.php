@@ -3,6 +3,7 @@ include 'includes/error-messages.php';
 //on this page we have to call all registered users from the table but only some datas. All rows will be able to open the detailed user infos.
 $users_row_array = [];
 $user_row = '';
+$account_type = $user_data['role'];
 $account_types = ["generic", "operator", "admin"];
 $sql = "SELECT `first_name`, `last_name`, `email`, `date_added`, `username`, `role`, `is_active`, `is_blocked` from `users`";
 $query = mysqli_query($con, $sql);

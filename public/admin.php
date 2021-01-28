@@ -1,7 +1,7 @@
 <?php
 require 'includes/header.php';
 ?>
-<h1>Welcome <?php echo $user->getFullName() ?></h1>
+<h1>Admin Page</h1>
 <p class="lead">This is the Admin Page. I will add admin functions such as user list and user managment etc...</p>
 <a href="user-managment.php" class="btn btn-lg btn-outline-light fw-bold border-white mt-4 mb-2">User Table</a>
 

@@ -95,7 +95,7 @@ function sanitizeInputNameOrAddress($input_value, $isName){
                 $errorArr[] = $success_message_data;
             } else {
                 echo "error: " . $sql . "<br>" . mysqli_error($con);
-            };
+            }
         }
     }
 

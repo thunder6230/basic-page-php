@@ -34,7 +34,7 @@
     if( !empty($_POST)){
     // sanitize form inputs and extract them from POST assigned by $key and the $value like in the loop below
         foreach ($_POST as $key => &$post_value) {
-            if ($key == 'reg_email' || $key == 'reg_email2' || $key == 'reg_password' || $key == 'reg_password2') {
+            if ($key == 'email' || $key == 'email2' || $key == 'password' || $key == 'password2') {
                 $post_value = sanitizeInputNameOrAddress($post_value, false);
             } else {
                 $post_value = sanitizeInputNameOrAddress($post_value, true);
@@ -47,8 +47,8 @@
         //session variables to load them in input values exceps passwords
         $_SESSION['fname'] = $fname;
         $_SESSION['lname'] = $lname;
-        $_SESSION['email'] = $reg_email;
-        $_SESSION['email2'] = $reg_email2;
+        $_SESSION['email'] = $email;
+        $_SESSION['email2'] = $email2;
 
         //registration date
         $date_added = date("Y-m-d");
@@ -63,16 +63,16 @@
         }
 
         //email validation
-        if( $reg_email == $reg_email2){
+        if( $email == $email2){
             //check email in database
-            $email_query = mysqli_query($con, "SELECT * from `users` WHERE `email`='$reg_email'");
+            $email_query = mysqli_query($con, "SELECT * from `users` WHERE `email`='$email'");
 
             //if query num rows > 0 then the email is in use
             if(mysqli_num_rows($email_query) > 0){
                 $errorArr[] = $email_error_taken;
             }
-            if (filter_var($reg_email, FILTER_SANITIZE_EMAIL)) {
-                $reg_email = filter_var($reg_email, FILTER_SANITIZE_EMAIL);
+            if (filter_var($email, FILTER_SANITIZE_EMAIL)) {
+                $email = filter_var($email, FILTER_SANITIZE_EMAIL);
             } else { 
                 $errorArr[] = $email_error_format;
             }  
@@ -82,18 +82,18 @@
         }
 
         //password validation
-        if($reg_password == $reg_password2){
+        if($password == $password2){
         //length minimum 6 max 35 chars
-            if(strlen($reg_password) > 35 || strlen($reg_password) < 6){
-                $errorArr[] = $reg_password_error_length;
+            if(strlen($password) > 35 || strlen($password) < 6){
+                $errorArr[] = $password_error_length;
             }
             //special character 
-            $pattern_reg_password = "/^[a-zA-Z0-9!§$%&()=?@* \/\-ß]+$/i";
-            if (!preg_match($pattern_reg_password, $reg_password)) {
-                $errorArr[] = $reg_password_error_format;
+            $pattern_password = "/^[a-zA-Z0-9!§$%&()=?@* \/\-ß]+$/i";
+            if (!preg_match($pattern_password, $password)) {
+                $errorArr[] = $password_error_format;
             }
             //encrypt password
-            $reg_password = md5($reg_password);
+            $password = md5($password);
         }else {
             $errorArr[] = $password_error_match;
         }
@@ -142,13 +142,13 @@
     
         if(empty($errorArr)) {
             
-            $sql = "INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`,`profile_pic`, `date_added`,  `username`, `address`, `country`, `zip`, `city`, `role`, `activation_code`, `is_active`, `is_blocked`) VALUES (NULL, '$fname', '$lname', '$reg_email', '$reg_password','$profile_pic', '$date_added', '$username', '', '', '', '', '$user_role', '$hash', '$is_active', '$is_blocked')";
+            $sql = "INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`,`profile_pic`, `date_added`,  `username`, `address`, `country`, `zip`, `city`, `role`, `activation_code`, `is_active`, `is_blocked`) VALUES (NULL, '$fname', '$lname', '$email', '$password','$profile_pic', '$date_added', '$username', '', '', '', '', '$user_role', '$hash', '$is_active', '$is_blocked')";
  
             if (mysqli_query($con, $sql)){
                 //clear session variables and create new ones for the login page
                 session_unset();
-                sendConfirmationEmail($reg_email, $fname, $lname, $hash);
-                $_SESSION['email'] = $reg_email;
+                sendConfirmationEmail($email, $fname, $lname, $hash);
+                $_SESSION['login_email'] = $email;
                 $_SESSION['message'] = "Registration successfull!<br>We sent a verification email to your address!";
                 //go to login
                 header("Location: login.php");

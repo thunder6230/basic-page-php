@@ -4,14 +4,14 @@ require 'includes/handlers/get-pics.php';
 $is_active = $user->isUserActive($userLoggedIn);
 
 ?>
-<img src="<?php echo $profile_pic ?>" class="avatar mb-4" onclick="openModal()">
+<img src="<?php echo $user_data['profile_pic'] ?>" class="avatar mb-4" onclick="openModal()">
 <h1>Profile Page</h1>
 <p class="lead">This is the profile page. I made some user info managment to change you datas.</p>
 
 <?php if (!$is_active) echo "<p class='lead font-weight-bold'><strong>Your account is still not verified!</strong></p>"; ?>
 <div class="lead">
-    <a href="profile-settings.php" class="btn btn-lg btn-outline-light fw-bold border-white mt-4 mb-2">Update Profile</a>
-    <a href="change-password.php" class="btn btn-lg btn-outline-light fw-bold border-white mt-4 mb-2">Change Password</a>
+    <a href="update-profile.php" class="btn btn-lg btn-outline-light fw-bold border-white mt-4 mb-2">Update Profile</a>
+    <a href="update-password.php" class="btn btn-lg btn-outline-light fw-bold border-white mt-4 mb-2">Change Password</a>
     <br>
     <a href="upload-profile-picture.php" class="btn btn-lg btn-outline-light fw-bold border-white mt-2 mb-2">Upload Picture</a>
     <?php if (!$is_active) echo "<a href='send-verification-email.php' class='btn btn-lg btn-outline-light fw-bold border-white mt-2 mb-2'>Resend verification</a>"; ?>
